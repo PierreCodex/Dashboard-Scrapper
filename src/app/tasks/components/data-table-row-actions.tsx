@@ -13,16 +13,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { taskSchema } from "../data/schema"
-
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>
 }
 
 export function DataTableRowActions<TData>({
-  row,
+  row: _row,
 }: DataTableRowActionsProps<TData>) {
-  const task = taskSchema.parse(row.original)
 
   return (
     <DropdownMenu>

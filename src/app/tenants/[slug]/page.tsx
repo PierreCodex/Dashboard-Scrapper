@@ -156,7 +156,7 @@ function LocationsTab({ slug, locations }: { slug: string; locations: TenantLoca
     (loc) =>
       loc.name.toLowerCase().includes(search.toLowerCase()) ||
       loc.department.toLowerCase().includes(search.toLowerCase()) ||
-      loc.province.toLowerCase().includes(search.toLowerCase())
+      loc.province?.toLowerCase().includes(search.toLowerCase())
   )
 
   const { data: agenciesData, isLoading: agenciesLoading } = useLocationAgencies(

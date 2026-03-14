@@ -448,7 +448,6 @@ function OlvaCoberturaTab({ provider }: { provider: string }) {
     : null
 
   const totalDistricts = allDistricts.length
-  const totalAgencies = allDistricts.reduce((sum, d) => sum + d.agencyCount, 0)
   const totalProvinces = coverage?.reduce((sum, d) => sum + d.provinces.length, 0) ?? 0
 
   return (
