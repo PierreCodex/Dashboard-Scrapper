@@ -20,16 +20,16 @@ function App() {
   return (
     <div className="font-sans antialiased" style={{ fontFamily: 'var(--font-inter)' }}>
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-        <AuthProvider>
-          <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
             <SidebarConfigProvider>
               <Router basename={basename}>
                 <AppRouter />
                 <Toaster />
               </Router>
             </SidebarConfigProvider>
-          </QueryClientProvider>
-        </AuthProvider>
+          </AuthProvider>
+        </QueryClientProvider>
       </ThemeProvider>
     </div>
   )

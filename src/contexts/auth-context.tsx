@@ -49,12 +49,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         onSuccess: (userData) => {
           setUser(userData)
           setIsValidating(false)
+          setIsLoading(false)
           localStorage.setItem(USER_KEY, JSON.stringify(userData))
         },
         onError: () => {
           setToken(null)
           setUser(null)
           setIsValidating(false)
+          setIsLoading(false)
           localStorage.removeItem(TOKEN_KEY)
           localStorage.removeItem(USER_KEY)
         },
