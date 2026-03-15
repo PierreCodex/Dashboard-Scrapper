@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
+import { useValidateToken } from '@/hooks/useValidateToken'
 
 export interface AuthUser {
   id: string
@@ -32,15 +33,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null)
   const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isValidating, setIsValidating] = useState(false)
+  const validateToken = useValidateToken()
 
   useEffect(() => {
     const storedToken = localStorage.getItem(TOKEN_KEY)
     const storedUser = localStorage.getItem(USER_KEY)
+    
     if (storedToken && storedUser) {
       setToken(storedToken)
       setUser(JSON.parse(storedUser))
+      setIsValidating(true)
+      
+      validateToken.mutate(undefined, {
+        onSuccess: (userData) => {
+          setUser(userData)
+          setIsValidating(false)
+          localStorage.setItem(USER_KEY, JSON.stringify(userData))
+        },
+        onError: () => {
+          setToken(null)
+          setUser(null)
+          setIsValidating(false)
+          localStorage.removeItem(TOKEN_KEY)
+          localStorage.removeItem(USER_KEY)
+        },
+      })
+    } else {
+      setIsLoading(false)
     }
-    setIsLoading(false)
   }, [])
 
   const login = async (email: string, password: string) => {
@@ -84,7 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         hasPermission,
         login,
         logout,
-        isLoading,
+        isLoading: isLoading || isValidating,
       }}
     >
       {children}
